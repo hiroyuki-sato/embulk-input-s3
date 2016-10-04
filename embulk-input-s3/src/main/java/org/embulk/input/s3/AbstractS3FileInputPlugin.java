@@ -78,9 +78,11 @@ public abstract class AbstractS3FileInputPlugin
 
         // proxy
         @Config("proxy_host")
+        @ConfigDefault("null")
         public Optional<String> getProxyHost();
 
         @Config("proxy_port")
+        @ConfigDefault("null")
         public Optional<Integer> getProxyPort();
 
         @ConfigInject

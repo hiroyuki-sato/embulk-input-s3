@@ -76,6 +76,13 @@ public abstract class AbstractS3FileInputPlugin
         public FileList getFiles();
         public void setFiles(FileList files);
 
+        // proxy
+        @Config("proxy_host")
+        public Optional<String> getProxyHost();
+
+        @Config("proxy_port")
+        public Optional<Integer> getProxyPort();
+
         @ConfigInject
         public BufferAllocator getBufferAllocator();
     }
@@ -143,6 +150,14 @@ public abstract class AbstractS3FileInputPlugin
         clientConfig.setMaxConnections(50); // SDK default: 50
         clientConfig.setMaxErrorRetry(3); // SDK default: 3
         clientConfig.setSocketTimeout(8*60*1000); // SDK default: 50*1000
+
+        if (task.getProxyHost().isPresent()) {
+            clientConfig.setProxyHost(task.getProxyHost().get());
+        }
+
+        if (task.getProxyPort().isPresent()) {
+            clientConfig.setProxyPort(task.getProxyPort().get());
+        }
 
         return clientConfig;
     }
